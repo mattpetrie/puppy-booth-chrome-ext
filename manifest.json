@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+
+  "name": "Puppy Booth Chrome Extension",
+  "description": "Deletes browser cookies and handles navigation back to root page for SPCA Puppy Booth.",
+  "version": "0.9",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"]
+    }
+  ],
+  "permissions": [
+    "cookies",
+    "tabs",
+    "idle",
+    "*://*/*"
+  ]
+}
