@@ -21,14 +21,27 @@ var sessionManager = {
 		})
 	},
 
-	setIdleListener: function(){
-		chrome.idle.setDetectionInterval(60);
+	navigateToRoot: function(rootUrl){
+		if(rootUrl === undefined){ rootUrl = "http://google.com" }
+		chrome.tabs.query({active: true}, function(tabs){
+			chrome.tabs.update(tabs[0].id, { url: rootUrl })
+		})
+	},
+
+	resetSession: function(rootUrl){
+		this.closeExtraTabs();
+		this.destroyAllCookies();
+		this.navigateToRoot(rootUrl);
+	},
+
+	setIdleListener: function(interval, callback){
+		if(interval === undefined){ interval = 60 }
+		chrome.idle.setDetectionInterval(interval);
 
 		chrome.idle.onStateChanged.addListener(function(newState){
 			if(newState !== "active"){
-				console.log("Chrome is now in an idle state.")
+				callback();
 			}
 		});
 	}
 }
-
