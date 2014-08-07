@@ -6,21 +6,22 @@
   "version": "0.9",
   "background": {
     "scripts": [
-      "session_manager.js", 
-      "whitelist_urls.js",
-      "background.js"
+      "js/session_manager.js", 
+      "js/whitelist_urls.js",
+      "js/background.js"
     ],
     "persistent": true
   },
   "browser_action": {
-    "default_popup": "popup.html"
+    "default_popup": "html/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content_script.js"]
+      "js": ["js/content_script.js"]
     }
   ],
+  "options_page": "html/options.html",
   "permissions": [
     "cookies",
     "tabs",
