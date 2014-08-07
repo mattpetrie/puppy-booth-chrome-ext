@@ -29,9 +29,9 @@ var sessionManager = {
 	},
 
 	resetSession: function(rootUrl){
-		this.closeExtraTabs();
-		this.destroyAllCookies();
-		this.navigateToRoot(rootUrl);
+		sessionManager.closeExtraTabs();
+		// this.destroyAllCookies();
+		sessionManager.navigateToRoot(rootUrl);
 	},
 
 	setIdleListener: function(interval, callback){
