@@ -42,7 +42,7 @@ var whitelistUrls = {
 					cancel: !this.isWhitelisted(details.url),
 				};
 			}.bind(this),
-			{ urls: ["<all_urls>"] },
+			{ urls: ["http://*/*", "https://*/*"] },
 			["blocking"]
 		);
 	},

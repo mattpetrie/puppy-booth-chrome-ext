@@ -21,27 +21,28 @@ var sessionManager = {
 		})
 	},
 
-	navigateToRoot: function(rootUrl){
-		if(rootUrl === undefined){ rootUrl = "http://google.com" }
-		chrome.tabs.query({active: true}, function(tabs){
-			chrome.tabs.update(tabs[0].id, { url: rootUrl })
-		})
+	navigateToRoot: function(){
+		chrome.storage.local.get({ rootUrl: "http://www.google.com/" }, function(items){
+			chrome.tabs.query({active: true}, function(tabs){
+				chrome.tabs.update(tabs[0].id, { url: items.rootUrl })
+			});
+		});
 	},
 
-	resetSession: function(rootUrl){
-		this.closeExtraTabs();
-		this.destroyAllCookies();
-		this.navigateToRoot(rootUrl);
+	resetSession: function(){
+		sessionManager.closeExtraTabs();
+		// this.destroyAllCookies();
+		sessionManager.navigateToRoot(rootUrl);
 	},
 
-	setIdleListener: function(interval, callback){
-		if(interval === undefined){ interval = 60 }
-		chrome.idle.setDetectionInterval(interval);
-
-		chrome.idle.onStateChanged.addListener(function(newState){
-			if(newState !== "active"){
-				callback();
-			}
+	setResetTimer: function(){
+		chrome.storage.local.get({timeout: 60}, function(items){
+			chrome.idle.setDetectionInterval(items.timeout);
+			chrome.idle.onStateChanged.addListener(function(newState){
+				if(newState !== "active"){
+					resetSession(rootUrl);
+				}
+			});
 		});
 	}
 }
