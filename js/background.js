@@ -1,7 +1,8 @@
 var KioskManager = {
 	init: function(){
-		sessionManager.setIdleListener(120, sessionManager.resetSession);
+		sessionManager.setResetTimer();
 		whitelistUrls.retrieveStore();
+		whitelistUrls.blockUrls();
 	},
 };
 
