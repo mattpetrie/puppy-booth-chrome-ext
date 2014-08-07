@@ -5,8 +5,12 @@
   "description": "Deletes browser cookies and handles navigation back to root page for SPCA Puppy Booth.",
   "version": "0.9",
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "scripts": [
+      "session_manager.js", 
+      "whitelist_urls.js",
+      "background.js"
+    ],
+    "persistent": true
   },
   "browser_action": {
     "default_popup": "popup.html"
@@ -21,6 +25,9 @@
     "cookies",
     "tabs",
     "idle",
+    "webRequest",
+    "webRequestBlocking",
+    "storage",
     "*://*/*"
   ]
 }
