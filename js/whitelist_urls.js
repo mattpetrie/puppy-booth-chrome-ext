@@ -9,6 +9,7 @@ var whitelistUrls = {
 			this.whitelist = items.whitelist;
 			return this.whitelist;
 		}.bind(this));
+		// chrome.storage.onChanged.addListener(function(change))
 	},
 
 	add: function(url){
@@ -38,8 +39,11 @@ var whitelistUrls = {
 	blockUrls: function(){
 		chrome.webRequest.onBeforeRequest.addListener(
 			function(details){
-				return {
-					cancel: !this.isWhitelisted(details.url),
+				console.log(details.type + " " + details.url);
+				if(details.type === "main_frame") {
+					return {
+						cancel: !this.isWhitelisted(details.url),
+					}
 				};
 			}.bind(this),
 			{ urls: ["http://*/*", "https://*/*"] },
@@ -49,6 +53,15 @@ var whitelistUrls = {
 
 	isWhitelisted: function(url){
 		var re;
+		// var that = this;
+		// chrome.tabs.query({
+		// 	active: true,
+		// 	windowType: "normal",
+		// 	url: that.whitelist
+		// 	}, function(tabs){ 
+		// 		console.log(that.whitelist);
+		// 		return tabs.length === 1;
+		// 		})
 		for(var i = 0; i < this.whitelist.length; i++){
 			re = new RegExp('.*' + this.whitelist[i] + ".*");
 			if(re.test(url)){
