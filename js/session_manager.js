@@ -37,7 +37,7 @@ var sessionManager = {
 
 	setResetTimer: function(){
 		chrome.storage.local.get({timeout: 60}, function(items){
-			chrome.idle.setDetectionInterval(items.timeout);
+			chrome.idle.setDetectionInterval(parseInt(items.timeout));
 			chrome.idle.onStateChanged.addListener(function(newState){
 				if(newState !== "active"){
 					resetSession(rootUrl);
